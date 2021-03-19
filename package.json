@@ -1,6 +1,6 @@
 {
   "name": "prisma",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "custom prisma module",
   "main": "index.js",
   "scripts": {
