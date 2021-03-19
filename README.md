@@ -1,1 +1,1 @@
-# prisma-module
+# prisma

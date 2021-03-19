@@ -7,10 +7,85 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
-model Post {
-  id        String @id @default(uuid())
-  title     String
+model UnitApplication {
+  id                String @id @default(uuid())
+  ownerId           String
+  ownerType         String
+  applicationType   String
+  applicationStatus String
+  tribeId           String
+  applicationData   Json?
+  businessId   String?
+  unitApplicationId String
+
+  updatedAt               DateTime                  @updatedAt
+  createdAt               DateTime                  @default(now())
+  UnitApplicationDocument UnitApplicationDocument[]
+}
+
+model UnitCustomer {
+  id                String @id @default(uuid())
+  ownerId           String
+  ownerType         String
+  unitCustomerId    String @unique
+  unitApplicationId String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model UnitApplicationDocument {
+  id             String          @id @default(uuid())
+  applicationId  String
+  application    UnitApplication @relation(fields: [applicationId], references: [id])
+  ownerId        String
+  ownerType      String
+  unitDocumentId String          @unique
+  documentId     String?
+  status         String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model UnitCustomerAccount {
+  id            String @id @default(uuid())
+  ownerId       String
+  ownerType     String
+  accountId     String @unique
+  accountType   String
+  accountStatus String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model UnitCounterparties {
+  id                  String @id @default(uuid())
+  ownerId             String
+  ownerType           String
+  customerId          String
+  unitCounterpartyId  String @unique
+  bank                String
+  name                String
+  accountType         String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model UnitTransactions {
+  transactionId       String @id @default(uuid())
+  accountId           String
+  counterpartyId      String
+  amount              String
+  description         String
+  accountType         String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
